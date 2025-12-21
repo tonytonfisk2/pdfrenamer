@@ -6,7 +6,11 @@ from Extract import extract
 from Preprocess import preprocess
 from Search import search
 from File_Handler import extract_files
+from integrations.mail_handler import download_pdfs 
 
+# Download attachments 
+# Rename attachments
+# Upload to dropbox
 
 def main():
 
@@ -19,6 +23,8 @@ def main():
     invoice_field = keywords[PDF_TYPE]
 
     vat_mapping = keywords.get('vat_mapping', {})
+
+    #print(download_pdfs())
 
     files, pf = extract_files(DIR_PATH)
 
@@ -48,8 +54,6 @@ def main():
             print(result)
         except Exception as e:
             print(str(e))
-
-        
 
 if __name__ == "__main__":
     main()

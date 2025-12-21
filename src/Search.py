@@ -1,9 +1,11 @@
 import re
 from datetime import datetime
+from collections import defaultdict
 
 def search(text, keywords, category, vmap):
     result = {}
     lines_to_check = 15
+    company_count = defaultdict(int)
 
     for idx, line in enumerate(text):
         for keyword in keywords:
@@ -12,14 +14,14 @@ def search(text, keywords, category, vmap):
                 continue
 
             for j in range(1, lines_to_check + 1):
-                if idx - j < 0:
-                    break
-                candidates.append(text[idx - j].replace(' ', ''))
-
-            for j in range(1, lines_to_check + 1):
                 if idx + j >= len(text):
                     break
                 candidates.append(text[idx + j].replace(' ', ''))
+
+            for j in range(1, lines_to_check + 1):
+                if idx - j < 0:
+                    break
+                candidates.append(text[idx - j].replace(' ', ''))
 
             if category == 'Fakturadatum' or category == 'Fakturanummer':
                 if line.startswith(keyword):
@@ -33,17 +35,27 @@ def search(text, keywords, category, vmap):
             #print(candidates, category)
 
             if category == 'Företagnamn':
-                result[category] = keyword
-                return result 
+                company_count[keyword] += 1 
+
             
             validated_value = validate(candidates, category)
 
             if validated_value:
                 result[category] = validated_value
                 return result
-            
-           
-            
+    
+    best_company = ''
+    max_count = 0
+
+    if category == 'Företagnamn' and company_count:
+        for key, val in company_count.items():
+            if val > max_count:
+                max_count = val
+                best_company = key
+        result[category] = best_company
+
+        
+
     if category == 'Företagnamn' and not result:
         for line in text:
             for vat in vmap.keys():

@@ -10,7 +10,7 @@ def preprocess(lines):
         'från förfallodagen', 'ange detta', 'payment to',
         'bet.villkor', 'lev.villkor', 'leveranssätt','artikelnr', 'benämning', 'lev.antal', 'à-pris', 'belopp',
         'enhet', 'kundnr', 'vårt ordernr', 'ert bestnr', 'er ref',
-        'vår referens', 'säljare', 'rma nr', ',', '#'
+        'vår referens', 'säljare', 'rma nr', ',', '#', 'PAPPERSKASSE'
     ]
     for text in lines:
 

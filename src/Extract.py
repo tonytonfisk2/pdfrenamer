@@ -7,9 +7,11 @@ def extract (file_path):
     lines = []
 
     for page in doc:
-        text += page.get_text('text')
-        lines = [line.strip() for line in re.split(r'[\/\n\:]', text)]
+        text += page.get_text('text', sort = True)
+
+    lines = [line.strip() for line in re.split(r'[\n\/\:]|\s{2,}', text)]
     doc.close()
-    
     return lines
+
+
 
