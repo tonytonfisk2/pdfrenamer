@@ -3,7 +3,7 @@ import shutil
 import yaml
 
 from File_Handler import rename_files
-from integrations.mail_handler import download_pdfs 
+from integrations.Mail_Handler import download_pdfs 
 
 # Download attachments 
 # Rename attachments

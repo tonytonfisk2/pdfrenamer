@@ -2,9 +2,9 @@ import os
 import glob
 import shutil
 import yaml
-from Extract import extract
-from Preprocess import preprocess
-from Search import search
+from rename_logic.Extract import extract
+from rename_logic.Preprocess import preprocess
+from rename_logic.Search import search
 
 
 def extract_files(dir_path):
