@@ -17,18 +17,26 @@ def main():
     RENAMED_PATH = '../data/processed'
     PDF_TYPE = 'invoice'
     DOWNLOAD = False
-    UPLOAD = True
     RENAME = True
+    UPLOAD = False
+
+    if not os.path.exists(DIR_PATH):
+        os.makedirs(DIR_PATH)
+
+    if not os.path.exists('../config'):
+        os.makedirs('../config')
 
     try:
-        print('Downloading...')
         if DOWNLOAD:
+            print('Downloading...')
             download_pdfs()
-        print('Renaming...')
+        
         if RENAME:
+            print('Renaming...')
             rename_files(dir_path= DIR_PATH, pdf_type= PDF_TYPE)
-        print('Uploading...')
+        
         if UPLOAD:
+            print('Uploading...')
             upload_dropbox(dir_path= RENAMED_PATH)
     
     except Exception as e:

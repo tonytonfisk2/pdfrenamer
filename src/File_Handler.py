@@ -43,8 +43,16 @@ def rename_files(dir_path, pdf_type):
             if missing_fields:
                 print(f'Missing fields {missing_fields} for {os.path.basename(file_path)}')
                 continue
+            
+            new_filename = ''
+            for keyword, _ in invoice_field.items():
+                if(str(result[keyword]).isdigit()):
+                    new_filename += f'{result[keyword]} '
+                else:
+                    new_filename += f'{result[keyword].title()} '
+            else:
+                new_filename += '.pdf'
 
-            new_filename = f"{result['Datum']} {result['Företagnamn'].title()} {result['Fakturanummer'].title()}.pdf"
             new_filepath = os.path.join(processed_dir, new_filename)
 
             shutil.copy2(file_path, new_filepath)
