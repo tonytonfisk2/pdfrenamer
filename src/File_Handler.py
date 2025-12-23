@@ -44,7 +44,7 @@ def rename_files(dir_path, pdf_type):
                 print(f'Missing fields {missing_fields} for {os.path.basename(file_path)}')
                 continue
 
-            new_filename = f"{result['Datum']} {result['Företagnamn'].title()} {result['Fakturanummer'].title()}"
+            new_filename = f"{result['Datum']} {result['Företagnamn'].title()} {result['Fakturanummer'].title()}.pdf"
             new_filepath = os.path.join(processed_dir, new_filename)
 
             shutil.copy2(file_path, new_filepath)
