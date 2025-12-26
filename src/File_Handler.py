@@ -5,6 +5,7 @@ import yaml
 from rename_logic.Extract import extract
 from rename_logic.Preprocess import preprocess
 from rename_logic.Search import search
+from utils import write_log
 
 
 def extract_files(dir_path):
@@ -14,7 +15,7 @@ def extract_files(dir_path):
 
 def rename_files(dir_path, pdf_type):
 
-    with open('../config/keywords.yaml', 'r', encoding='UTF-8') as file:
+    with open('../configs/keywords.yaml', 'r', encoding='UTF-8') as file:
         keywords = yaml.safe_load(file)
 
     invoice_field = keywords[pdf_type]
@@ -42,6 +43,7 @@ def rename_files(dir_path, pdf_type):
             
             if missing_fields:
                 print(f'Missing fields {missing_fields} for {os.path.basename(file_path)}')
+                write_log(f'Missing fields {missing_fields} for {os.path.basename(file_path)}')
                 continue
             
             new_filename = ''
@@ -58,5 +60,6 @@ def rename_files(dir_path, pdf_type):
             shutil.copy2(file_path, new_filepath)
 
             print(result)
+            write_log(result)
     except Exception as e:
         print(str(e))

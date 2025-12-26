@@ -3,6 +3,9 @@ from dropbox import Dropbox
 import glob
 import os
 from dotenv import load_dotenv
+import sys
+sys.path.append("..")
+from utils import write_log
 
 load_dotenv()
 
@@ -24,6 +27,8 @@ def upload_dropbox(dir_path):
             with open(file_path, 'rb') as f:
                 dbx.files_upload(f.read(), f'/Test/{filename}')
                 print(f'Uploaded: {filename}')
+                write_log(f'Uploaded: {filename}')
+                
     except Exception as e:
         print(f'Error: {e}')
         return
