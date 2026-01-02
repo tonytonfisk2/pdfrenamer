@@ -34,11 +34,11 @@ def get_access_token():
 
 def download_pdfs(dir_path):
 
-    with open('../configs/email.conf.yaml', 'r') as f:
-        trusted_mails = yaml.safe_load(f)
+    with open('../configs/email_conf.yaml', 'r', encoding='UTF-8') as file:
+        mail_conf = yaml.safe_load(file)
 
     token_result = get_access_token()
-    date = (datetime.now(timezone.utc) - timedelta(days=7)).strftime('%Y-%m-%dT%H:%M:%SZ')
+    date = (datetime.now(timezone.utc) - timedelta(days=17)).strftime('%Y-%m-%dT%H:%M:%SZ')
 
     if not token_result or "access_token" not in token_result:
         print('Token not found')
@@ -47,7 +47,7 @@ def download_pdfs(dir_path):
     
     access_token = token_result['access_token']
     headers = {'Authorization': f'Bearer {access_token}'}
-    url = f"https://graph.microsoft.com/v1.0/me/messages?$filter=receivedDateTime ge {date} and hasAttachments eq true&$orderby=receivedDateTime desc&$top=10"
+    url = f"https://graph.microsoft.com/v1.0/me/messages?$filter=receivedDateTime ge {date} and hasAttachments eq true&$orderby=receivedDateTime desc&$top=50"
 
     try:
         response = requests.get(url, headers=headers)
@@ -65,7 +65,7 @@ def download_pdfs(dir_path):
                 subject = mail['subject'] 
                 mail_address = mail['sender']['emailAddress']['address']
 
-                if mail_address not in trusted_mails:
+                if mail_address not in mail_conf['trusted_emails']:
                     print(f'Address not trusted {mail_address} will not download')
                     write_log(f'Address not trusted {mail_address} will not download')
                     continue
@@ -89,7 +89,7 @@ def download_pdfs(dir_path):
                                 pdf_count += 1
                                 print(f'downloaded {filename} from {subject}')
                                 write_log(f'downloaded {filename} from {subject}')
-            return write_log(pdf_count, "count")
+            return write_log(f'{pdf_count} pdfs downloaded')
         else:
             print(f"Graph API Error: {response.status_code}")
             print(response.text)

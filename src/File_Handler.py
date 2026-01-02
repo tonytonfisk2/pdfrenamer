@@ -60,6 +60,6 @@ def rename_files(dir_path, pdf_type):
             shutil.copy2(file_path, new_filepath)
 
             print(result)
-            write_log(result)
+            write_log(f'Succesfully renamed - {result}')
     except Exception as e:
         print(str(e))

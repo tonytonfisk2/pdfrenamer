@@ -5,7 +5,7 @@ import yaml
 from File_Handler import rename_files
 from integrations.Mail_Handler import download_pdfs 
 from integrations.Dropbox_Handler import upload_dropbox
-from utils import clear_log
+from utils import init
 
 # Security Check using AI? Or just a list with secure emails?
 # Download attachments 
@@ -15,27 +15,14 @@ from utils import clear_log
 def main():
 
     DIR_PATH = '../data'
-    CONFIG_PATH = '../configs'
-    LOG_PATH = '../logs'
     RENAMED_PATH = '../data/processed'
-    PDF_TYPE = 'invoice'
-    DOWNLOAD = False
+    PDF_TYPE = 'invoice'    
+    DOWNLOAD = True
     RENAME = True
-    UPLOAD = False
+    UPLOAD = True
 
+    init()
 
-
-    if not os.path.exists(DIR_PATH):
-        os.makedirs(DIR_PATH)
-
-    if not os.path.exists(CONFIG_PATH):
-        os.makedirs(CONFIG_PATH)
-
-    if not os.path.exists(LOG_PATH):
-        os.makedirs(LOG_PATH)
-
-    clear_log()
-    
     try:
         if DOWNLOAD:
             print('Downloading...')
